@@ -1,3 +1,4 @@
+import 'package:actual/user/view/login_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'common/component/custom_text_form_field.dart';
@@ -16,25 +17,11 @@ class _App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false /* debug 없애기 */,
-      home: Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CustomTextFormField(
-              /* requied 를 안쓰면 강제는 아닌가 싶다! */
-              hintText: '이메일을 입력해주세요',
-              onChanged: (String value) { },
-            ),
-            CustomTextFormField(
-              /* requied 를 안쓰면 강제는 아닌가 싶다! */
-              hintText: '비밀번호 입력해주세요',
-              obscureText: true,
-              onChanged: (String value) { },
-            )
-          ],
-        )
+      theme: ThemeData(
+        fontFamily: 'NotoSans',
       ),
+      debugShowCheckedModeBanner: false /* debug 없애기 */,
+      home: LoginScreen()
     );
   }
 }

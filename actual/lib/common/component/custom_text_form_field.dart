@@ -31,7 +31,7 @@ class CustomTextFormField extends StatelessWidget {
     return TextFormField(
       cursorColor: PRIMARY_COLOR,
       obscureText: obscureText,    /* 비밀번호 */
-      autofocus: autoFocus,      /* 화면에 들어왔을 때, 자동적으로 focus 할건지 */
+      autofocus: autoFocus,        /* 화면에 들어왔을 때, 자동적으로 focus 할건지 */
       onChanged: onChanged,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.all(20),
@@ -42,8 +42,9 @@ class CustomTextFormField extends StatelessWidget {
           fontSize: 14.0,
         ),
         fillColor: INPUT_BG_COLOR,
-        filled: true,       /* false - 배경색 없음 , true - 배경색 있음 */
-        border: baseBorder, /* 모든 input 상태의 기본 스타일 세팅 */
+        filled: true,             /* false - 배경색 없음 , true - 배경색 있음 */
+        border: baseBorder,       /* 모든 input 상태의 기본 스타일 세팅 */
+        enabledBorder: baseBorder,/* 선택을 할 수 있는 상태 */
         focusedBorder: baseBorder.copyWith(
           /* copyWith : 속성들을 복사하고 원하는 것만 바꿀 수 있음 */
           borderSide: baseBorder.borderSide.copyWith(

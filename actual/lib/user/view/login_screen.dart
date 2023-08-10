@@ -2,18 +2,38 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:actual/common/const/colors.dart';
+import 'package:actual/common/const/data.dart';
 import 'package:actual/common/layout/default_layout.dart';
+import 'package:actual/common/view/root_tab.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../common/component/custom_text_form_field.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  String username = '';
+  String password = '';
+
+  final storage = FlutterSecureStorage();
 
   @override
   Widget build(BuildContext context) {
     /* 두번 호출 할 예정이라 최상위에다가 선언 */
     final dio = Dio();
+
+    /* Emulator 는 Network가 다르다! */
+    // localhost 와 같은 ip = 10.0.2.2
+    final emulatorIp = '10.0.2.2:3000';
+    final simulatorIp = '127.0.0.1:3000';
+    final ip = Platform.isIOS ? simulatorIp : emulatorIp;
+
 
     return DefaultLayout(
       child: SingleChildScrollView( /* 밑에 있는 child 들을 스크롤 가능하게 해준다 */
@@ -42,18 +62,54 @@ class LoginScreen extends StatelessWidget {
                 CustomTextFormField(
                   /* required 를 안쓰면 강제는 아닌가 싶다! */
                   hintText: '이메일을 입력해주세요',
-                  onChanged: (String value) {},
+                  onChanged: (String value) { /* TextWatcher */
+                    username = value;
+                  },
                 ),
                 const SizedBox(height: 16.0),
                 CustomTextFormField(
                   /* requied 를 안쓰면 강제는 아닌가 싶다! */
                   hintText: '비밀번호 입력해주세요',
                   obscureText: true,
-                  onChanged: (String value) {},
+                  onChanged: (String value) { /* TextWatcher */
+                    password = value;
+                  },
                 ),
                 const SizedBox(height: 16.0),
                 ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async /* 비동기 */ {
+                      /* ID & 비밀번호 */
+                      final rawString = '$username:$password';
+
+                      /* Dart 에서 BASE64 인코딩 하는 법(암기하기) */
+                      // <String, String> String 넣어서 return String
+                      Codec<String, String> stringToBase64 = utf8.fuse(base64);
+                      String token = stringToBase64.encode(rawString);
+
+                      final resp = await dio.post('http://$ip/auth/login',
+                        options: Options(
+                          headers: {
+                            /* header 넣는 곳*/
+                            'authorization': 'Basic $token',
+                          },
+                        ),
+                      );
+
+                      final refreshToken = resp.data['refreshToken'];
+                      final accessToken = resp.data['accessToken'];
+
+                      /* await = 동작이 완료될때까지 기다림 */
+                      await storage.write(key: REFRESH_TOKEN_KEY, value: refreshToken);
+                      await storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
+
+                      /* 위에서 에러가 나면 밑으로 가지 않음 */
+
+                      Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => RootTab(),
+                          ),
+                      );
+
                     },
                     /* primary -> backgroundColor deprecated Migrate */
                     style: ElevatedButton.styleFrom(backgroundColor: PRIMARY_COLOR),
@@ -63,8 +119,8 @@ class LoginScreen extends StatelessWidget {
                     /* primary -> foregroundColor deprecated Migrate */
                     style: TextButton.styleFrom(foregroundColor: Colors.black),
                     child: Text('회원가입'))
-            ],
-        ),
+              ],
+            ),
           ),
         ),
       )

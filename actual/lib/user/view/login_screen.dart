@@ -7,7 +7,6 @@ import 'package:actual/common/layout/default_layout.dart';
 import 'package:actual/common/view/root_tab.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../common/component/custom_text_form_field.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -20,8 +19,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   String username = '';
   String password = '';
-
-  final storage = FlutterSecureStorage();
 
   @override
   Widget build(BuildContext context) {

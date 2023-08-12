@@ -27,8 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     /* Emulator 는 Network가 다르다! */
     // localhost 와 같은 ip = 10.0.2.2
-    final emulatorIp = '10.0.2.2:3000';
-    final simulatorIp = '127.0.0.1:3000';
+    final emulatorIp = '';
+    final simulatorIp = '';
     final ip = Platform.isIOS ? simulatorIp : emulatorIp;
 
 

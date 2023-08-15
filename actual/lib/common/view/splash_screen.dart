@@ -28,21 +28,21 @@ class _SplashScreenState extends State<SplashScreen> {
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
 
     /* token 체크해서 Login & Root 분기 태우기 */
-    if (refreshToken == null || accessToken == null) {
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (_) => LoginScreen(),
-        ),
-        (route) => false,
-      );
-    } else {
+    // if (refreshToken == null || accessToken == null) {
+    //   Navigator.of(context).pushAndRemoveUntil(
+    //     MaterialPageRoute(
+    //       builder: (_) => LoginScreen(),
+    //     ),
+    //     (route) => false,
+    //   );
+    // } else {
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (_) => RootTab(),
         ),
         (route) => false,
       );
-    }
+    // }
   }
 
   void deleteToken() async {

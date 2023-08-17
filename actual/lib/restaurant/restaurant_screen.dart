@@ -25,18 +25,33 @@ class RestaurantScreen extends StatelessWidget {
             child: FutureBuilder<List> (
               future: paginateRestaurant(),
               builder: (context, AsyncSnapshot<List> snapshot) {
-                return RestaurantCard(
-                  image: Image.asset(
-                    'asset/img/food/ddeok_bok_gi.jpg',
-                    fit: BoxFit.cover,
-                  ),
-                  name: '불타는 떡볶이',
-                  tags: ['떡볶이', '치즈', '매운맛'],
-                  ratingsCount: 100,
-                  deliveryTime: 15,
-                  deliveryFee: 2000,
-                  ratings: 100,
+                if (!snapshot.hasData) {
+                  /* Data 가 없으면?? */
+                  return Container();
+                }
+
+                return ListView.separated(
+                    itemBuilder: (_, index) {
+                      return RestaurantCard(
+                        image: Image.asset(
+                          'asset/img/food/ddeok_bok_gi.jpg',
+                          fit: BoxFit.cover,
+                        ),
+                        name: '불타는 떡볶이',
+                        tags: ['떡볶이', '치즈', '매운맛'],
+                        ratingsCount: 100,
+                        deliveryTime: 15,
+                        deliveryFee: 2000,
+                        ratings: 100,
+                      );
+                    },
+                    separatorBuilder: (_, index) {
+                      /* 각 item 사이에 들어가는 공백이라고 보면 댐 */
+                      return SizedBox(height: 16.0,);
+                    },
+                    itemCount: snapshot.data!.length
                 );
+
               },
             )
         ));

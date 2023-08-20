@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 class RestaurantScreen extends StatelessWidget {
   const RestaurantScreen({Key? key}) : super(key: key);
 
+  /* Future return -> async */
   Future<List> paginateRestaurant() async {
     final dio = Dio();
 
@@ -14,6 +15,7 @@ class RestaurantScreen extends StatelessWidget {
     final resp = await dio.get('http://$ip/restaurant',
         options: Options(headers: {'authorization': 'Bearer $accessToken'}));
 
+    /* API response 에서 필요한게 data */
     return resp.data['data'];
   }
 

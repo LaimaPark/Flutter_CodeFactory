@@ -37,6 +37,7 @@ class RestaurantScreen extends StatelessWidget {
                     itemBuilder: (_, index) {
                       /* item 실행할때마다 생성댐 */
                       final item = snapshot.data![index];
+
                       return RestaurantCard(
                         /* Network 로부터 이미지 가져옴 */
                         image: Image.network(

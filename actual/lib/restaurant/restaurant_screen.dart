@@ -26,7 +26,7 @@ class RestaurantScreen extends StatelessWidget {
         child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: FutureBuilder<List>(
-              future: paginateRestaurant(), /* data 가져오는곳 */
+              future: paginateRestaurant(), /* data 요청하는 곳 */
               builder: (context, AsyncSnapshot<List> snapshot) {
                 if (!snapshot.hasData) {
                   /* Data 가 없으면?? */
@@ -38,20 +38,24 @@ class RestaurantScreen extends StatelessWidget {
                   itemBuilder: (_, index) {
                     /* item 실행할때마다 생성댐 */
                     final item = snapshot.data![index];
-                    // parsed
-                    final pItem = RestaurantModel(
-                        id: item['id'],
-                        name: item['name'],
-                        thumbUrl: 'http://$ip${item['thumbUrl']}',
-                        tags: List<String>.of(item['tags']),
-                        /* value 들을 하나씩 찾으면서 같은 값이 있는치 찾는 것 */
-                        priceRange: RestaurantPriceRange.values
-                            .firstWhere((e) => e.name == item['priceRange']),
-                        ratings: item['ratings'],
-                        ratingsCount: item['ratingsCount'],
-                        deliveryTime: item['deliveryTime'],
-                        deliveryFee: item['deliveryFee']
-                    );
+                    final pItem = RestaurantModel.fromJson(json: item);
+                    /* pItem -> pItem2 변경 */
+                    /* model 에서 mapping 을 해줌으로써 더 간결해짐 */
+                    
+
+                    // final pItem = RestaurantModel(
+                    //     id: item['id'],
+                    //     name: item['name'],
+                    //     thumbUrl: 'http://$ip${item['thumbUrl']}',
+                    //     tags: List<String>.of(item['tags']),
+                    //     /* value 들을 하나씩 찾으면서 같은 값이 있는치 찾는 것 */
+                    //     priceRange: RestaurantPriceRange.values
+                    //         .firstWhere((e) => e.name == item['priceRange']),
+                    //     ratings: item['ratings'],
+                    //     ratingsCount: item['ratingsCount'],
+                    //     deliveryTime: item['deliveryTime'],
+                    //     deliveryFee: item['deliveryFee']
+                    // );
 
                     return RestaurantCard(
                       /* Network 로부터 이미지 가져옴 */

@@ -40,7 +40,7 @@ class RestaurantModel {
         id: json['id'],
         name: json['name'],
         thumbUrl: 'http://$ip${json['thumbUrl']}',
-        tags: List<String>.of(json['tags']),
+        tags: List<String>.from(json['tags']),
         /* value 들을 하나씩 찾으면서 같은 값이 있는치 찾는 것 */
         priceRange: RestaurantPriceRange.values
             .firstWhere((e) => e.name == json['priceRange']),

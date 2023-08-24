@@ -1,6 +1,7 @@
 import 'package:actual/common/const/data.dart';
 import 'package:actual/restaurant/component/restaurant_card.dart';
 import 'package:actual/restaurant/model/restaurant_model.dart';
+import 'package:actual/restaurant/view/restaurant_detail_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -39,9 +40,25 @@ class RestaurantScreen extends StatelessWidget {
                     /* item 실행할때마다 생성댐 */
                     final item = snapshot.data![index];
                     final pItem = RestaurantModel.fromJson(json: item);
+                    // return RestaurantCard.fromModel(model: pItem);
+                    /* Factory 만들어서 씀 */
+
+                    return GestureDetector(
+                      onTap: (){
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (_) => RestaurantDetailScreen(),
+                          ),
+                        );
+                      },
+                      child: RestaurantCard.fromModel(
+                          model: pItem
+                      )
+                    );
+
+
                     /* pItem -> pItem2 변경 */
                     /* model 에서 mapping 을 해줌으로써 더 간결해짐 */
-                    
 
                     // final pItem = RestaurantModel(
                     //     id: item['id'],
@@ -57,19 +74,6 @@ class RestaurantScreen extends StatelessWidget {
                     //     deliveryFee: item['deliveryFee']
                     // );
 
-                    return RestaurantCard(
-                      /* Network 로부터 이미지 가져옴 */
-                      image: Image.network(
-                        pItem.thumbUrl,
-                        fit: BoxFit.cover,
-                      ),
-                      name: pItem.name,
-                      tags: pItem.tags /* Casting */,
-                      ratingsCount: pItem.ratingsCount,
-                      deliveryTime: pItem.deliveryTime,
-                      deliveryFee: pItem.deliveryFee,
-                      ratings: pItem.ratings,
-                    );
                   },
                   separatorBuilder: (_, index) {
                     /* 각 item 사이에 들어가는 공백이라고 보면 댐 */

@@ -25,12 +25,6 @@ class _LoginScreenState extends State<LoginScreen> {
     /* 두번 호출 할 예정이라 최상위에다가 선언 */
     final dio = Dio();
 
-    /* Emulator 는 Network가 다르다! */
-    // localhost 와 같은 ip = 10.0.2.2
-    final emulatorIp = '';
-    final simulatorIp = '';
-    final ip = Platform.isIOS ? simulatorIp : emulatorIp;
-
 
     return DefaultLayout(
       child: SingleChildScrollView( /* 밑에 있는 child 들을 스크롤 가능하게 해준다 */
@@ -83,7 +77,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       Codec<String, String> stringToBase64 = utf8.fuse(base64);
                       String token = stringToBase64.encode(rawString);
 
-                      final resp = await dio.post('http://$ip/auth/login',
+                      final resp = await dio.post(
+                        'http://$ip/auth/login',
                         options: Options(
                           headers: {
                             /* header 넣는 곳*/

@@ -29,6 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
 
     final dio = Dio();
+
     try {
       final resp = await dio.post(
         'http://$ip/auth/token',
@@ -38,28 +39,27 @@ class _SplashScreenState extends State<SplashScreen> {
           }
         )
       );
+      /* RefreshToken 성공 */
 
-      await storage.write(key: ACCESS_TOKEN_KEY, value: resp.data['accessToken']);
-    } catch {
-
-    }
-
-    /* token 체크해서 Login & Root 분기 태우기 */
-    // if (refreshToken == null || accessToken == null) {
-    //   Navigator.of(context).pushAndRemoveUntil(
-    //     MaterialPageRoute(
-    //       builder: (_) => LoginScreen(),
-    //     ),
-    //     (route) => false,
-    //   );
-    // } else {
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (_) => RootTab(),
         ),
-        (route) => false,
+            (route) => false,
       );
-    // }
+
+    } catch(e) {
+      /* 로그인을 하는데 뭔가가 문제가 있다! -> Login 으로 보내기 */
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (_) => LoginScreen(),
+        ),
+            (route) => false,
+      );
+
+
+    }
+
   }
 
   void deleteToken() async {

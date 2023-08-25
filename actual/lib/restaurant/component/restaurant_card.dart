@@ -11,6 +11,9 @@ class RestaurantCard extends StatelessWidget {
   final int deliveryFee;
   final double ratings;
 
+  // 상세페이지 여부
+  final bool isDetail;
+
   const RestaurantCard({required this.image,
     required this.name,
     required this.tags,

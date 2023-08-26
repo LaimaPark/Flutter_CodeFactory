@@ -14,18 +14,21 @@ class RestaurantCard extends StatelessWidget {
   // 상세페이지 여부
   final bool isDetail;
 
-  const RestaurantCard({required this.image,
+  const RestaurantCard({
+    required this.image,
     required this.name,
     required this.tags,
     required this.ratingsCount,
     required this.deliveryTime,
     required this.deliveryFee,
     required this.ratings,
-    Key? key})
-      : super(key: key);
+    this.isDetail = false, /* 기본값은 false! */
+    Key? key
+  }) : super(key: key);
 
   factory RestaurantCard.fromModel({
     required RestaurantModel model,
+    bool isDetail = false,
   }) {
     return RestaurantCard(
       image: Image.network(
@@ -38,56 +41,64 @@ class RestaurantCard extends StatelessWidget {
       deliveryTime: model.deliveryTime,
       deliveryFee: model.deliveryFee,
       ratings: model.ratings,
+      isDetail: isDetail,
     );
   }
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ClipRRect(
-          /* 테두리를 깎을 수 있는 위젯 */
-          borderRadius: BorderRadius.circular(12.0),
-          child: image,
-        ),
+        if (isDetail)
+          image,
+        if (!isDetail)
+          ClipRRect(
+            /* 테두리를 깎을 수 있는 위젯 */
+            borderRadius: BorderRadius.circular(12.0),
+            child: image,
+          ),
         const SizedBox(height: 16.0),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              name,
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
-            ),
-            const SizedBox(height: 16.0,),
-            Text(
-              tags.join(' · '),
-              /* 사이사이에 뭔가를 넣을 수 있음 */
-              style: TextStyle(color: BODY_TEXT_COLOR, fontSize: 14.0),
-            ),
-            const SizedBox(height: 8.0,),
-            Row(
-              children: [
-                _IconText(
-                    icon: Icons.star,
-                    label: ratings.toString()
-                ),
-                renderDot(),
-                _IconText(
-                    icon: Icons.receipt,
-                    label: ratingsCount.toString()
-                ),
-                renderDot(),
-                _IconText(
-                    icon: Icons.timelapse_outlined,
-                    label: '$deliveryTime 분'
-                ),
-                renderDot(),
-                _IconText(
-                    icon: Icons.monetization_on,
-                    label: deliveryFee == 0 ? '무료' : deliveryFee.toString()
-                ),
-              ],
-            )
-          ],
+        Padding(
+          /* 기존 코드를 최대한 살리는 방법으로 상세 뷰 양옆 띄우기 */
+          padding: EdgeInsets.symmetric(horizontal: isDetail ? 16.0 : 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                name,
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 16.0,),
+              Text(
+                tags.join(' · '),
+                /* 사이사이에 뭔가를 넣을 수 있음 */
+                style: TextStyle(color: BODY_TEXT_COLOR, fontSize: 14.0),
+              ),
+              const SizedBox(height: 8.0,),
+              Row(
+                children: [
+                  _IconText(
+                      icon: Icons.star,
+                      label: ratings.toString()
+                  ),
+                  renderDot(),
+                  _IconText(
+                      icon: Icons.receipt,
+                      label: ratingsCount.toString()
+                  ),
+                  renderDot(),
+                  _IconText(
+                      icon: Icons.timelapse_outlined,
+                      label: '$deliveryTime 분'
+                  ),
+                  renderDot(),
+                  _IconText(
+                      icon: Icons.monetization_on,
+                      label: deliveryFee == 0 ? '무료' : deliveryFee.toString()
+                  ),
+                ],
+              )
+            ],
+          ),
         )
       ],
     );

@@ -14,6 +14,9 @@ class RestaurantCard extends StatelessWidget {
   // 상세페이지 여부
   final bool isDetail;
 
+  // 상세 내용
+  final String? detail;
+
   const RestaurantCard({
     required this.image,
     required this.name,
@@ -23,6 +26,7 @@ class RestaurantCard extends StatelessWidget {
     required this.deliveryFee,
     required this.ratings,
     this.isDetail = false, /* 기본값은 false! */
+    this.detail,
     Key? key
   }) : super(key: key);
 
@@ -96,7 +100,12 @@ class RestaurantCard extends StatelessWidget {
                       label: deliveryFee == 0 ? '무료' : deliveryFee.toString()
                   ),
                 ],
-              )
+              ),
+              if (detail != null && isDetail)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0,),
+                  child: Text(detail!),
+                ),
             ],
           ),
         )

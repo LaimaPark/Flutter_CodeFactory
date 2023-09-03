@@ -9,7 +9,19 @@ class RestaurantDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
-      title: '불타는 떡볶이',
+        title: '불타는 떡볶이',
+        child: CustomScrollView(
+          slivers: [
+
+          ],
+        )
+
+
+    );
+  }
+
+  SliverToBoxAdapter renderTop() {
+    return  SliverToBoxAdapter(
       child: Column(
         children: [
           RestaurantCard(
@@ -33,6 +45,7 @@ class RestaurantDetailScreen extends StatelessWidget {
 
         ],
       ),
-    );
+    )
   }
+
 }

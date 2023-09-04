@@ -1,12 +1,31 @@
 import 'dart:js';
 
+import 'package:actual/common/const/data.dart';
 import 'package:actual/common/layout/default_layout.dart';
 import 'package:actual/product/component/product_card.dart';
 import 'package:actual/restaurant/component/restaurant_card.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantDetailScreen extends StatelessWidget {
-  const RestaurantDetailScreen({super.key});
+  final String id;
+
+  const RestaurantDetailScreen({
+    required this.id,
+    super.key
+  });
+
+  Future getRestaurantDetail() async {
+    final dio = Dio();
+
+    final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
+
+    dio.get('http://$ip/restaurant/$id', options: Options(
+      headers: {
+        'authorization': 'Bearer $accessToken'
+      }
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -31,12 +31,17 @@ class RestaurantDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultLayout(
         title: '불타는 떡볶이',
-        child: CustomScrollView(
-          slivers: [
-            renderTop(),
-            renderLabel(),
-            renderProducts()
-          ],
+        child: FutureBuilder(
+          future: getRestaurantDetail(),
+          builder: (_, snapshot) {
+            return CustomScrollView(
+              slivers: [
+                renderTop(),
+                renderLabel(),
+                renderProducts()
+              ],
+            );
+          },
         )
 
 

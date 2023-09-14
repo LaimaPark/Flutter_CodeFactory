@@ -14,6 +14,8 @@ class ShoppingItemModel {
     required this.isSpicy,
   });
 
+  /// 모델이 final 이라 직접 바꿀 수 없기때문에
+  /// 아래와 같은 copyWith 함수를 직접 만듦
   ShoppingItemModel copyWith({
     String? name,
     int? quantity,
@@ -27,4 +29,5 @@ class ShoppingItemModel {
       isSpicy: isSpicy ?? this.isSpicy,
     );
   }
+
 }

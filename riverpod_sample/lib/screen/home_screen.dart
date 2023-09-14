@@ -7,6 +7,8 @@ import 'package:riverpod_theory/screen/state_notifier_provider_screen.dart';
 import 'package:riverpod_theory/screen/state_provider_screen.dart';
 import 'package:riverpod_theory/screen/stream_provider_screen.dart';
 
+import 'auto_dispose_modifier_screen.dart';
+
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -65,6 +67,16 @@ class HomeScreen extends ConsumerWidget {
               );
             },
             child: Text('FamilyModifierScreen'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => AutoDisposeModifierScreen(),
+                ),
+              );
+            },
+            child: Text('AutoDisposeModifierScreen'),
           ),
         ],
       ),

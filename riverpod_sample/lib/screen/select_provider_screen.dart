@@ -15,7 +15,7 @@ class SelectProviderScreen extends ConsumerWidget {
     final state = ref.watch(selectProvider.select((value) => value.isSpicy));
 
     ref.listen(selectProvider.select((value) => value.hasBought), (previous, next) {
-      
+
     });
 
     return DefaultLayout(
@@ -25,9 +25,9 @@ class SelectProviderScreen extends ConsumerWidget {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(state.name),
-                Text(state.isSpicy.toString()),
-                Text(state.hasBought.toString()),
+                // Text(state.name),
+                // Text(state.isSpicy.toString()),
+                // Text(state.hasBought.toString()),
                 ElevatedButton(onPressed: () {
                   ref.read(selectProvider.notifier).toggleIsSpicy();
                 }, child: Text('Spicy Toggle')),
@@ -36,6 +36,7 @@ class SelectProviderScreen extends ConsumerWidget {
                 }, child: Text('Bought Toggle')),
               ],
           ),
-        ));
+        )
+    );
   }
 }

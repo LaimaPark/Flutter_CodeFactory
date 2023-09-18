@@ -1,5 +1,9 @@
 import 'package:go_router/go_router.dart';
 
 final router = GoRouter(
-    routes: []
+    routes: [
+      GoRoute(
+          path: '/',
+      ), /* 안에서는 GoRoute */
+    ]
 );
